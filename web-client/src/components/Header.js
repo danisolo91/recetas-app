@@ -21,8 +21,8 @@ const Header = ({ history }) => {
           </form>
 
           <div className="text-end">
-            <button onClick={() => history.push('/iniciar-sesion')} className="btn btn-outline-light me-2">Iniciar sesión</button>
-            <button onClick={() => history.push('/crear-cuenta')} className="btn btn-warning">Crear cuenta</button>
+            <button onClick={() => history.push('/login')} className="btn btn-outline-light me-2">Iniciar sesión</button>
+            <button onClick={() => history.push('/register')} className="btn btn-warning">Crear cuenta</button>
           </div>
         </div>
       </div>

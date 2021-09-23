@@ -1,17 +1,15 @@
 package com.ds.recetasapp.payload.response;
 
-import java.util.List;
+import com.ds.recetasapp.domain.User;
 
 public class JwtResponse {
 	private String token;
 	private String type = "Bearer";
-	private String username;
-	private List<String> roles;
+	private User user;
 
-	public JwtResponse(String accessToken, String username, List<String> roles) {
+	public JwtResponse(String accessToken, User user) {
 		this.token = accessToken;
-		this.username = username;
-		this.roles = roles;
+		this.user = user;
 	}
 
 	public String getAccessToken() {
@@ -30,15 +28,12 @@ public class JwtResponse {
 		this.type = tokenType;
 	}
 
-	public String getUsername() {
-		return username;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUser(User user) {
+		this.user = user;
 	}
-
-	public List<String> getRoles() {
-		return roles;
-	}
+	
 }

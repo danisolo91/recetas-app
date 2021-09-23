@@ -2,7 +2,7 @@ package com.ds.recetasapp.controller;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -55,11 +55,10 @@ public class AuthController {
 		String jwt = jwtUtils.generateJwtToken(authentication);
 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		
+		Optional<User> user = userService.getByUsername(userDetails.getUsername());
 
-		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-				.collect(Collectors.toList());
-
-		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), roles));
+		return ResponseEntity.ok(new JwtResponse(jwt, user.get()));
 	}
 
 	@PostMapping("/signup")

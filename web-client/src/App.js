@@ -14,9 +14,11 @@ function App() {
       <div className="container">
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/iniciar-sesion" component={Login} />
-          <Route exact path="/crear-cuenta" component={Register} />
-          <Route exact path="/mi-cuenta" component={BoardUser} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/profile/:userId" component={BoardUser} />
+          {/*<Route exact path="/recipes" component={BoardUser} />
+          <Route path="/recipes/:id" component={BoardUser} />*/}
         </Switch>
       </div>
       <Footer />
