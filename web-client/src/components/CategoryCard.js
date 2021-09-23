@@ -21,14 +21,12 @@ const CategoryCard = ({ category }) => {
   }
 
   return (
-    <div class="card bg-dark text-white" style={{width: '200px'}}>
-      <img src={showImg} class="card-img" alt={category} />
-      <div class="card-img-overlay">
-        <h5 class="card-title">{category}</h5>
-        <p class="card-text">This is a wider card with supporting text...</p>
-        <p class="card-text">Last updated 3 mins ago</p>
-      </div>
-    </div>
+    <>
+      <img src={showImg} className="bd-placeholder-img rounded-circle" width="140" height="140" alt={category} />
+      <h2>{category}</h2>
+      <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
+      <p><button className="btn btn-secondary">Ver recetas</button></p>
+    </>
   );
 }
 

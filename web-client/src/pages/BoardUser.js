@@ -4,32 +4,46 @@ import { useParams } from "react-router-dom";
 import AuthService from '../services/auth.service';
 import UserService from '../services/user.service';
 
-const BoardUser = () => {
+const BoardUser = (props) => {
   const { userId } = useParams();
-  const [ loggedUser, setLoggedUser ] = useState({});
-  const [ profileUser, setProfileUser ] = useState({});
+  const [loggedUser, setLoggedUser] = useState({});
+  const [profileUser, setProfileUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const authData = AuthService.getAuthData();
 
-    if(authData) {
+    if (authData) {
       setLoggedUser(() => authData.user);
     }
-    
+
     UserService.getUser(userId).then(res => {
-      console.log(res.data);
       setProfileUser(() => res.data);
+      setLoading(false);
+    }, error => {
+      console.log(error);
+      setLoading(false);
+      props.history.push('/'); // show 404 page ...
     });
-  }, [setLoggedUser, setProfileUser, userId]);
+  }, [setLoggedUser, setProfileUser, userId, props.history]);
 
   return (
     <>
-      {profileUser.id ?
-        (profileUser.id === loggedUser.id) ?
-        <h1>Bienvenido, {profileUser.fullname}</h1> :
-        <h1>{profileUser.fullname}</h1>
-        :
-        <h4>Cargando...</h4>
+      {!loading &&
+        <div className="row">
+          <div className="col-md-4 text-center">
+            <img src="https://github.com/mdo.png" alt="mdo" width="140" height="140" className="bd-placeholder-img rounded-circle mb-3" />
+            <h2>{profileUser.fullname}</h2>
+            <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
+            {loggedUser.id === profileUser.id && 
+              <p><button className="btn btn-secondary">Editar</button></p>}
+          </div>
+          <div className="col-md-8 p-3">
+            Recetas
+          </div>
+        </div>
+        /*:
+        <h4>Cargando...</h4>*/
       }
     </>
   );

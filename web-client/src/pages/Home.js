@@ -1,28 +1,31 @@
-import CategoryCard from "../components/CategoryCard";
-import HomeCarousel from "../components/HomeCarousel";
-import RecipeCard from "../components/RecipeCard";
+import CategoryCard from '../components/CategoryCard';
+import HomeCarousel from '../components/HomeCarousel';
+import HomeRecipeCard from '../components/HomeRecipeCard';
 
 const Home = () => {
 
-  const categories = ["Saludable", "Organica", "Vegetariana"];
+  const categories = ['Saludable', 'Organica', 'Vegetariana'];
 
   return (
     <>
       <HomeCarousel />
-      <div className="row row-cols-auto justify-content-evenly mt-5">
+      <div className='row my-5'>
         {
           categories.map((cat, index) => {
             return (
-              <div className="col mb-4">
+              <div className='col-lg-4 text-center'>
                 <CategoryCard key={index} category={cat} />
               </div>
             )
           })
         }
       </div>
-      <RecipeCard />
-      <RecipeCard />
-      <RecipeCard />
+      <hr className='featurette-divider' />
+      <HomeRecipeCard />
+      <hr className='featurette-divider' />
+      <HomeRecipeCard />
+      <hr className='featurette-divider' />
+      <HomeRecipeCard />
     </>
   );
 }
