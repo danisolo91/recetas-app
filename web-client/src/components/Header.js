@@ -1,15 +1,17 @@
+import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ history }) => {
   return (
     <header className="p-3 bg-dark text-white mb-4 shadow">
       <div className="container">
         <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-          <a href="/" className="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none me-4 fs-4">
+          <Link to='/' className='d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none me-4 fs-4'>
             <strong>Recetas</strong>App
-          </a>
+          </Link>
 
           <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="/" className="nav-link px-2 text-secondary">Home</a></li>
+            <li><Link to="/" className="nav-link px-2 text-secondary">Home</Link></li>
             <li><a href="/" className="nav-link px-2 text-white">Features</a></li>
             <li><a href="/" className="nav-link px-2 text-white">Pricing</a></li>
           </ul>
@@ -19,8 +21,8 @@ const Header = () => {
           </form>
 
           <div className="text-end">
-            <button type="button" className="btn btn-outline-light me-2">Login</button>
-            <button type="button" className="btn btn-warning">Sign-up</button>
+            <button onClick={() => history.push('/iniciar-sesion')} className="btn btn-outline-light me-2">Iniciar sesión</button>
+            <button onClick={() => history.push('/crear-cuenta')} className="btn btn-warning">Crear cuenta</button>
           </div>
         </div>
       </div>
@@ -28,4 +30,4 @@ const Header = () => {
   );
 }
 
-export default Header;
+export default withRouter(Header);
