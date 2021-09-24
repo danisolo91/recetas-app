@@ -2,6 +2,12 @@
   cursor: pointer;
 }
 
+.list-group-item.active {
+  --bs-bg-opacity: 1;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
 /* MARKETING CONTENT
 -------------------------------------------------- */
 

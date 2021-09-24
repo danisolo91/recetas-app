@@ -46,6 +46,11 @@ public class RecipeServiceImpl implements RecipeService {
 	public StringList getAllTags() {
 		return recipeRepository.findDistinctTags();
 	}
+
+	@Override
+	public List<Recipe> getByAuthorId(UUID authorId) {
+		return recipeRepository.findAllByAuthorId(authorId);
+	}
 	
 	
 }

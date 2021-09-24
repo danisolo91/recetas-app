@@ -1,6 +1,6 @@
 import HealthyImg from '../images/healthy.jpg';
 
-const RecipeCard = () => {
+const HomeRecipeCard = () => {
 
   return (
     <div className="row featurette">
@@ -15,4 +15,4 @@ const RecipeCard = () => {
   );
 }
 
-export default RecipeCard;
+export default HomeRecipeCard;

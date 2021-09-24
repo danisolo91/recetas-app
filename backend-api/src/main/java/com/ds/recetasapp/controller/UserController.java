@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ds.recetasapp.domain.User;
+import com.ds.recetasapp.service.RecipeService;
 import com.ds.recetasapp.service.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -22,6 +23,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RecipeService recipeService;
 
 	@GetMapping
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -32,11 +36,22 @@ public class UserController {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getUser(@PathVariable UUID id) {
 		Optional<User> user = userService.getUserById(id);
-		
-		if(user.isEmpty()) {
+
+		if (user.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok(user.get());
+	}
+
+	@GetMapping("/{id}/recipes")
+	public ResponseEntity<?> getUserRecipes(@PathVariable UUID id) {
+		Optional<User> user = userService.getUserById(id);
+
+		if (user.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok(user.get());		
+		return ResponseEntity.ok(recipeService.getByAuthorId(user.get().getId()));
 	}
 }

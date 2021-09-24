@@ -21,9 +21,9 @@ const Login = (props) => {
     setMessage('');
     setLoading(true);
 
-    if (true) {
+    if (true) { // no validation errors...
       AuthService.login(state.username, state.password).then((data) => {
-        props.history.push('/profile/' + data.user.id);
+        props.history.push('/profiles/' + data.user.id);
         window.location.reload();
       }, (error) => {
         const resMessage =

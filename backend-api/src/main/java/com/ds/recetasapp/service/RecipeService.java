@@ -12,6 +12,8 @@ public interface RecipeService {
 	List<Recipe> getAllRecipes();
 
 	Optional<Recipe> getRecipeById(UUID recipeId);
+	
+	List<Recipe> getByAuthorId(UUID authorId);
 
 	Recipe save(Recipe recipe);
 
