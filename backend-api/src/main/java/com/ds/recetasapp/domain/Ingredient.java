@@ -8,19 +8,15 @@ public class Ingredient {
 	private String food;
 	
 	@NotNull
-	private double quantity;
-	
-	@NotNull
-	private Measure measure;
+	private String quantity;
 	
 	public Ingredient() {
 		
 	}
 	
-	public Ingredient(String food, double quantity, Measure measure) {
+	public Ingredient(String food, String quantity) {
 		this.food = food;
 		this.quantity = quantity;
-		this.measure = measure;
 	}
 
 	public String getFood() {
@@ -31,25 +27,17 @@ public class Ingredient {
 		this.food = food;
 	}
 
-	public double getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(double quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
-	}
-
-	public Measure getMeasure() {
-		return measure;
-	}
-
-	public void setMeasure(Measure measure) {
-		this.measure = measure;
 	}
 
 	@Override
 	public String toString() {
-		return "Ingredient [food=" + food + ", quantity=" + quantity + ", measure=" + measure + "]";
+		return "Ingredient [food=" + food + ", quantity=" + quantity + "]";
 	}
 	
 }
