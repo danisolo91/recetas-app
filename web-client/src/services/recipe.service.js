@@ -15,10 +15,20 @@ const addRecipe = (recipe) => {
   return axios.post(API_URL, recipe, { headers: authHeader() });
 }
 
+const editRecipe = (recipe) => {
+  return axios.put(API_URL + recipe.id, recipe, { headers: authHeader() });
+}
+
+const deleteRecipe = (recipeId) => {
+  return axios.delete(API_URL + recipeId, { headers: authHeader() });
+}
+
 const exportedObj = {
   getAllRecipes,
   getRecipeById,
-  addRecipe
+  addRecipe,
+  editRecipe,
+  deleteRecipe
 }
 
 export default exportedObj;

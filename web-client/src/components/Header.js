@@ -13,6 +13,7 @@ const Header = (props) => {
 
   const goToCreateRecipe = () => {
     props.history.push('/recipes/create');
+    window.location.reload();
   }
 
   const logout = () => {

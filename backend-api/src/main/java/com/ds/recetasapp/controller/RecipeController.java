@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,71 +33,79 @@ public class RecipeController {
 
 	@Autowired
 	private RecipeService recipeService;
-	
+
 	@GetMapping
 	public ResponseEntity<?> getAllRecipes() {
 		return ResponseEntity.ok(recipeService.getAllRecipes());
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getRecipeById(@PathVariable UUID id) {
 		Optional<Recipe> recipe = recipeService.getRecipeById(id);
-		
-		if(recipe.isEmpty()) {
+
+		if (recipe.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		return ResponseEntity.ok(recipe.get());
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<?> addRecipe(@Valid @RequestBody Recipe recipe) {
 		Recipe recipeDb = recipeService.save(recipe);
 		return ResponseEntity.created(URI.create("/api/recipes/" + recipeDb.getId())).build();
 	}
-	
+
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateRecipe(@PathVariable UUID id, @Valid @RequestBody Recipe recipe) {
 		Optional<Recipe> recipeDb = recipeService.getRecipeById(id);
-		
-		if(recipeDb.isEmpty()) {
+
+		if (recipeDb.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
+
 		// Check if logged user is author of the recipe
-		if(!recipeDb.get().getAuthor().getUsername().equals(userDetails.getUsername())) {
+		if (!recipeDb.get().getAuthor().getUsername().equals(userDetails.getUsername())) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		
+
 		// Set the URL id to the received recipe
 		recipe.setId(id);
-		
+
 		// Save changes
 		recipeService.save(recipe);
-		
-		return ResponseEntity.ok(new MessageResponse("Receta actualizada!"));	
+
+		return ResponseEntity.ok(new MessageResponse("Receta actualizada!"));
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteRecipe(@PathVariable UUID id) {
 		Optional<Recipe> recipeDb = recipeService.getRecipeById(id);
-		
-		if(recipeDb.isEmpty()) {
+
+		if (recipeDb.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		// Check if logged user is author of the recipe
+		if (!recipeDb.get().getAuthor().getUsername().equals(userDetails.getUsername())) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+
 		recipeService.delete(id);
-		
-		return ResponseEntity.ok(new MessageResponse("Receta eliminada!"));	
+
+		return ResponseEntity.ok(new MessageResponse("Receta eliminada!"));
 	}
-	
+
 	@GetMapping("/foods")
 	public ResponseEntity<?> getAllFoods() {
 		return ResponseEntity.ok(recipeService.getAllFoods());
 	}
-	
+
 	@GetMapping("/tags")
 	public ResponseEntity<?> getAllTags() {
 		return ResponseEntity.ok(recipeService.getAllTags());

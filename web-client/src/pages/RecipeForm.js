@@ -30,11 +30,16 @@ const RecipeForm = (props) => {
   const handleSubmit = () => {
     if(recipe.title && recipe.ingredients.length > 0) {
       if(recipeId) { // update
-
+        console.log(recipe);
+        RecipeService.editRecipe(recipe).then(res => {
+          props.history.push('/profiles/' + recipe.author.id);
+          window.location.reload();
+        }, error => {
+          console.log(error);
+        });
       } else { // add new
-        console.log(recipe)
         RecipeService.addRecipe(recipe).then(res => {
-          props.history.push('/profile/' + recipe.author.id);
+          props.history.push('/profiles/' + recipe.author.id);
           window.location.reload();
         }, error => {
           console.log(error);
@@ -95,9 +100,9 @@ const RecipeForm = (props) => {
       if (recipeId) {
         RecipeService.getRecipeById(recipeId).then(res => {
 
-          // Check if logged user is the author
+          // Check if the logged user is the author
           if(res.data.author.id === authData.user.id) {
-            setRecipe(res.data);  
+            setRecipe(res.data);
           } else {
             console.log('forbidden');
             props.history.push('/'); // show 403 forbidden page...
