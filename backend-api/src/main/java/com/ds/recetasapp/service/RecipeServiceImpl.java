@@ -1,12 +1,15 @@
 package com.ds.recetasapp.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ds.recetasapp.domain.Category;
 import com.ds.recetasapp.domain.Recipe;
 import com.ds.recetasapp.domain.StringList;
 import com.ds.recetasapp.repository.RecipeRepository;
@@ -19,7 +22,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public List<Recipe> getAllRecipes() {
-		return recipeRepository.findAll();
+		return recipeRepository.findAllByOrderByCreatedAtDesc();
 	}
 
 	@Override
@@ -46,10 +49,17 @@ public class RecipeServiceImpl implements RecipeService {
 	public StringList getAllTags() {
 		return recipeRepository.findDistinctTags();
 	}
+	
+	@Override
+	public StringList getAllCategories() {
+		return new StringList(Arrays.stream(Category.values())
+				.map(c -> c.getName())
+				.collect(Collectors.toList()));
+	}
 
 	@Override
 	public List<Recipe> getByAuthorId(UUID authorId) {
-		return recipeRepository.findAllByAuthorId(authorId);
+		return recipeRepository.findAllByAuthorIdOrderByCreatedAtAsc(authorId);
 	}
 	
 	

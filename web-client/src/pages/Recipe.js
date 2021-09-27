@@ -71,7 +71,8 @@ const Recipe = (props) => {
               </ul>
               <h4 className="mt-3">Descripción: </h4>
               <p>{recipe.description}</p>
-              <small className="text-secondary">Tags: {recipe.tags.map(tag => <span>{tag}, </span>)}</small>
+              <p className="text-secondary">Categoría: <span>{recipe.category}</span></p>
+              <small className="text-secondary">Etiquetas: {recipe.tags.map(tag => <span>{tag}, </span>)}</small>
             </div>
           </div>
         </>

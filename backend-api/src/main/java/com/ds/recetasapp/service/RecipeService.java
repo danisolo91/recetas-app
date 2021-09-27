@@ -22,4 +22,6 @@ public interface RecipeService {
 	StringList getAllFoods();
 
 	StringList getAllTags();
+	
+	StringList getAllCategories();
 }

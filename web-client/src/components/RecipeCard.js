@@ -13,7 +13,8 @@ const RecipeCard = ({ recipe }) => {
             <div className="card-body">
               <h5 className="card-title">{recipe.title}</h5>
               <p className="card-text">{recipe.description}</p>
-              <p className="card-text"><small className="text-muted">{recipe.createdAt}</small></p>
+              <p className="card-text text-secondary">{recipe.category}</p>
+              <p className="card-text"><small className="text-secondary">{recipe.createdAt}</small></p>
             </div>
           </div>
         </div>

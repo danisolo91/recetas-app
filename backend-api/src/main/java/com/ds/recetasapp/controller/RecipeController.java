@@ -110,4 +110,9 @@ public class RecipeController {
 	public ResponseEntity<?> getAllTags() {
 		return ResponseEntity.ok(recipeService.getAllTags());
 	}
+	
+	@GetMapping("/categories")
+	public ResponseEntity<?> getAllCategories() {
+		return ResponseEntity.ok(recipeService.getAllCategories());
+	}
 }

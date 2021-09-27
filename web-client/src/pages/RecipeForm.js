@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, withRouter } from "react-router";
+import CategoryFormSelect from "../components/CategoryFormSelect";
 import IngredientsForm from "../components/IngredientsForm";
 import TagForm from "../components/TagForm";
 
@@ -9,9 +10,10 @@ import RecipeService from '../services/recipe.service';
 const RecipeForm = (props) => {
   const { recipeId } = useParams();
   const [recipe, setRecipe] = useState({
-    author: {id: ''},
+    author: { id: '' },
     title: '',
     description: '',
+    category: '',
     image: '',
     ingredients: [],
     tags: []
@@ -28,9 +30,8 @@ const RecipeForm = (props) => {
   }
 
   const handleSubmit = () => {
-    if(recipe.title && recipe.ingredients.length > 0) {
-      if(recipeId) { // update
-        console.log(recipe);
+    if (recipe.title && recipe.ingredients.length > 0) {
+      if (recipeId) { // update
         RecipeService.editRecipe(recipe).then(res => {
           props.history.push('/profiles/' + recipe.author.id);
           window.location.reload();
@@ -63,7 +64,7 @@ const RecipeForm = (props) => {
     setRecipe(prevState => {
       return {
         ...prevState,
-        ingredients: prevState.ingredients.filter((val,i) => i !== index)
+        ingredients: prevState.ingredients.filter((val, i) => i !== index)
       }
     });
   }
@@ -81,9 +82,18 @@ const RecipeForm = (props) => {
     setRecipe(prevState => {
       return {
         ...prevState,
-        tags: prevState.tags.filter((val,i) => i !== index)
+        tags: prevState.tags.filter((val, i) => i !== index)
       }
     });
+  }
+
+  const selectCategory = (category) => {
+    setRecipe(prevState => {
+      return {
+        ...prevState,
+        category: category
+      }
+    })
   }
 
   useEffect(() => {
@@ -93,7 +103,7 @@ const RecipeForm = (props) => {
     if (authData) {
       // set logged user as author
       setRecipe(prevState => {
-        return {...prevState, author: authData.user}
+        return { ...prevState, author: authData.user }
       });
 
       // load recipe to edit
@@ -101,7 +111,7 @@ const RecipeForm = (props) => {
         RecipeService.getRecipeById(recipeId).then(res => {
 
           // Check if the logged user is the author
-          if(res.data.author.id === authData.user.id) {
+          if (res.data.author.id === authData.user.id) {
             setRecipe(res.data);
           } else {
             console.log('forbidden');
@@ -126,7 +136,13 @@ const RecipeForm = (props) => {
     <>
       {!loading &&
         <>
-          <h1>{recipeId ? 'Editar receta' : 'Crear nueva receta'}</h1>
+          <h1 className="mb-3">{recipeId ? 'Editar receta' : 'Crear nueva receta'}</h1>
+
+          <CategoryFormSelect 
+              selectedCategory={recipe.category}
+              selectCategory={selectCategory}
+            />
+
           <div>
             <div className="form-floating mb-3">
               <input
@@ -139,6 +155,7 @@ const RecipeForm = (props) => {
                 onChange={handleInput} />
               <label for="floatingTitle">Titulo</label>
             </div>
+
             <div className="form-floating">
               <textarea
                 className="form-control"
@@ -151,22 +168,22 @@ const RecipeForm = (props) => {
               <label for="floatingTextarea2">Descripción</label>
             </div>
 
-            <IngredientsForm 
-              addIngredient={addIngredient} 
-              removeIngredient={removeIngredient} 
+            <IngredientsForm
+              addIngredient={addIngredient}
+              removeIngredient={removeIngredient}
               ingredients={recipe.ingredients} />
-            
-            <TagForm 
-              addTag={addTag} 
+
+            <TagForm
+              addTag={addTag}
               removeTag={removeTag}
-              tags={recipe.tags}/>
+              tags={recipe.tags} />
 
             <div className="mb-3">
               <label for="formFileLg" className="form-label ms-2 mt-2">Imagen</label>
               <input className="form-control form-control-lg" id="formFileLg" type="file" />
             </div>
             <div className="my-5 col-md-3 mx-auto">
-              <button 
+              <button
                 className="btn btn-success w-100"
                 onClick={handleSubmit}>Guardar</button>
             </div>

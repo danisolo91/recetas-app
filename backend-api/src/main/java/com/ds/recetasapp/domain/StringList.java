@@ -7,6 +7,13 @@ public class StringList {
 
 	private List<String> values = new ArrayList<>();
 
+	public StringList() {
+	}
+
+	public StringList(List<String> values) {
+		this.values = values;
+	}
+
 	public List<String> getValues() {
 		return values;
 	}

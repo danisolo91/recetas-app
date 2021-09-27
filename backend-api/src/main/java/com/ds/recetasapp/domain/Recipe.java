@@ -23,6 +23,7 @@ public class Recipe {
 	private String title;
 	private String image;
 	private String description;
+	private String category;
 	
 	@NotNull
 	private List<Ingredient> ingredients = new ArrayList<>();
@@ -37,9 +38,10 @@ public class Recipe {
 		this.createdAt = new Date();
 	}
 
-	public Recipe(String title, List<Ingredient> ingredients, User author) {
+	public Recipe(String title, String category, List<Ingredient> ingredients, User author) {
 		this.id = UUID.randomUUID();
 		this.title = title;
+		this.category = category;
 		this.ingredients = ingredients;
 		this.author = author;
 		this.createdAt = new Date();
@@ -107,6 +109,14 @@ public class Recipe {
 
 	public void setAuthor(User author) {
 		this.author = author;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	@Override
