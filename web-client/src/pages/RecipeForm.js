@@ -34,14 +34,12 @@ const RecipeForm = (props) => {
       if (recipeId) { // update
         RecipeService.editRecipe(recipe).then(res => {
           props.history.push('/profiles/' + recipe.author.id);
-          window.location.reload();
         }, error => {
           console.log(error);
         });
       } else { // add new
         RecipeService.addRecipe(recipe).then(res => {
           props.history.push('/profiles/' + recipe.author.id);
-          window.location.reload();
         }, error => {
           console.log(error);
         });

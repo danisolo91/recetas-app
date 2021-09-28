@@ -49,6 +49,11 @@ public class RecipeController {
 
 		return ResponseEntity.ok(recipe.get());
 	}
+	
+	@GetMapping("/categories/{category}")
+	public ResponseEntity<?> getRecipesByCategory(@PathVariable String category) {
+		return ResponseEntity.ok(recipeService.getAllRecipesByCategory(category));
+	}
 
 	@PostMapping
 	public ResponseEntity<?> addRecipe(@Valid @RequestBody Recipe recipe) {

@@ -21,9 +21,9 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/profiles/:userId" component={BoardUser} />
           <Route exact path="/recipes" component={Recipes} />
+          <Route exact path="/recipes/cat/:category" component={Recipes} />
           <Route exact path="/recipes/create" component={RecipeForm} />
           <Route exact path="/recipes/:recipeId/edit" component={RecipeForm} />
-          <Route exact path="/recipes/cat/:category" component={Recipes} />
           <Route exact path="/recipes/:recipeId" component={Recipe} />
         </Switch>
       </div>

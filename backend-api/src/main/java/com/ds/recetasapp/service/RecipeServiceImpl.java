@@ -61,6 +61,11 @@ public class RecipeServiceImpl implements RecipeService {
 	public List<Recipe> getByAuthorId(UUID authorId) {
 		return recipeRepository.findAllByAuthorIdOrderByCreatedAtAsc(authorId);
 	}
+
+	@Override
+	public List<Recipe> getAllRecipesByCategory(String category) {
+		return recipeRepository.findAllByCategory(category);
+	}
 	
 	
 }

@@ -10,6 +10,8 @@ import com.ds.recetasapp.domain.StringList;
 public interface RecipeService {
 
 	List<Recipe> getAllRecipes();
+	
+	List<Recipe> getAllRecipesByCategory(String category);
 
 	Optional<Recipe> getRecipeById(UUID recipeId);
 	

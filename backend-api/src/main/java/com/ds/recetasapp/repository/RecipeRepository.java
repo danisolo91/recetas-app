@@ -31,4 +31,6 @@ public interface RecipeRepository extends MongoRepository<Recipe, UUID>{
 	
 	List<Recipe> findAllByOrderByCreatedAtDesc();
 	
+	List<Recipe> findAllByCategory(String category);
+	
 }

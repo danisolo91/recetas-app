@@ -1,28 +1,33 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import CategoryList from '../components/CategoryList';
 import RecipeCard from '../components/RecipeCard';
 import RecipeService from '../services/recipe.service';
 
 const Recipes = () => {
+  const { category } = useParams();
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    RecipeService.getAllRecipes().then(res => {
-      setRecipes(res.data);
-      setLoading(false);
-    })
-  }, []);
+    if(category) {
+      RecipeService.getRecipesByCategory(category).then(res => {
+        setRecipes(res.data);
+        setLoading(false);
+      }, error => console.log(error));
+    } else {
+      RecipeService.getAllRecipes().then(res => {
+        setRecipes(res.data);
+        setLoading(false);
+      }, error => console.log(error));
+    }
+  }, [category]);
 
   return (
     <div className="row">
-      <div className="col-md-3 mb-4">
-        <div className="list-group sticky-top">
-          <button type="button" className="list-group-item list-group-item-action active" aria-current="true">Todas las recetas</button>
-          <button type="button" className="list-group-item list-group-item-action">Saludables</button>
-          <button type="button" className="list-group-item list-group-item-action">Orgánicas</button>
-          <button type="button" className="list-group-item list-group-item-action">Vegetarianas</button>
-        </div>
-      </div>
+
+      <CategoryList selectedCategory={category ? category : '' } />
+
       <div className="col-md-9">
           {recipes.length > 0 ?
             recipes.map(recipe => {
