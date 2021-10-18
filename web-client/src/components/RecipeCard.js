@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Healthy from '../images/healthy.jpg';
+import DateFormatter from '../utilities/date.util';
 
 const RecipeCard = ({ recipe }) => {
   return (
@@ -14,7 +15,7 @@ const RecipeCard = ({ recipe }) => {
               <h5 className="card-title">{recipe.title}</h5>
               <p className="card-text">{recipe.description}</p>
               <p className="card-text text-secondary">{recipe.category}</p>
-              <p className="card-text"><small className="text-secondary">{recipe.createdAt}</small></p>
+              <p className="card-text"><small className="text-secondary">{DateFormatter.defaultFormat(recipe.createdAt)}</small></p>
             </div>
           </div>
         </div>

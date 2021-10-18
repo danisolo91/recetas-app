@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, withRouter } from 'react-router';
 import RecipeService from '../services/recipe.service';
 import AuthService from '../services/auth.service';
+import DateFormatter from '../utilities/date.util';
 
 import HealthyImg from '../images/healthy.jpg';
 import { Link } from 'react-router-dom';
@@ -48,13 +49,13 @@ const Recipe = (props) => {
                 <Link to={ '/profiles/' + recipe.author.id } className="ms-2">{recipe.author.fullname}</Link>
               </div>
               <small className="text-secondary fst-italic fw-lighter">
-                Fecha de publicación: {recipe.createdAt}
+                Fecha de publicación: {DateFormatter.defaultFormat(recipe.createdAt)}
               </small>
             </div>
             {(loggedUser?.id === recipe?.author.id) &&
               <div className="col-md-6 pt-2">
                 <button onClick={goToEditRecipe} className="btn btn-success me-3"><i class="bi bi-pencil-square me-2" />Editar receta</button>
-                <button onClick={deleteRecipe} className="btn btn-danger"><i class="bi bi-pencil-square me-2" />Eliminar receta</button>
+                <button onClick={deleteRecipe} className="btn btn-danger"><i class="bi bi-trash me-2"></i>Eliminar receta</button>
               </div>
             }
           </div>
