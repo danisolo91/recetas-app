@@ -105,19 +105,14 @@ public class RecipeController {
 
 		return ResponseEntity.ok(new MessageResponse("Receta eliminada!"));
 	}
-
-	@GetMapping("/foods")
-	public ResponseEntity<?> getAllFoods() {
-		return ResponseEntity.ok(recipeService.getAllFoods());
-	}
-
-	@GetMapping("/tags")
-	public ResponseEntity<?> getAllTags() {
-		return ResponseEntity.ok(recipeService.getAllTags());
-	}
 	
 	@GetMapping("/categories")
 	public ResponseEntity<?> getAllCategories() {
 		return ResponseEntity.ok(recipeService.getAllCategories());
+	}
+	
+	@GetMapping("/last")
+	public ResponseEntity<?> getLastRecipes() {
+		return ResponseEntity.ok(recipeService.getLastRecipes());
 	}
 }

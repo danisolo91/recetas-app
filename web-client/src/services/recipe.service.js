@@ -31,6 +31,10 @@ const getRecipesByCategory= (category) => {
   return axios.get(API_URL + 'categories/' + category, { headers: authHeader() });
 }
 
+const getLastRecipes = () => {
+  return axios.get(API_URL + 'last');
+}
+
 const exportedObj = {
   getAllRecipes,
   getRecipeById,
@@ -38,7 +42,8 @@ const exportedObj = {
   editRecipe,
   deleteRecipe,
   getCategories,
-  getRecipesByCategory
+  getRecipesByCategory,
+  getLastRecipes
 }
 
 export default exportedObj;

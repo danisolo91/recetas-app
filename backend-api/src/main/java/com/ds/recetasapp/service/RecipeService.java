@@ -11,6 +11,8 @@ public interface RecipeService {
 
 	List<Recipe> getAllRecipes();
 	
+	List<Recipe> getLastRecipes();
+	
 	List<Recipe> getAllRecipesByCategory(String category);
 
 	Optional<Recipe> getRecipeById(UUID recipeId);

@@ -1,17 +1,19 @@
+import { Link } from 'react-router-dom';
 import HealthyImg from '../images/healthy.jpg';
 
-const HomeRecipeCard = () => {
-
+const HomeRecipeCard = (props) => {
   return (
-    <div className="row featurette">
-      <div className="col-md-7 order-md-2">
-        <h2 className="featurette-heading">First featurette heading. <span className="text-muted">It’ll blow your mind.</span></h2>
-        <p className="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
+    <Link to={ '/recipes/' + props.recipe.id } style={{ textDecoration: 'none', color: 'inherit' }}>
+      <div className="row featurette">
+        <div className={props.index % 2 ? 'col-md-7' : 'col-md-7 order-md-2'}>
+          <h2 className="featurette-heading mb-sm-3">{props.recipe.title}. <span className="text-muted">{props.recipe.category}.</span></h2>
+          <p className="lead">{props.recipe.description.substring(0, 150) + '...'}</p>
+        </div>
+        <div className={props.index % 2 ? 'col-md-5' : 'col-md-5 order-md-1'}>
+          <img src={HealthyImg} className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" alt="Saludable" />
+        </div>
       </div>
-      <div className="col-md-5">
-        <img src={HealthyImg} className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" alt="Saludable" />
-      </div>
-    </div>
+    </Link>
   );
 }
 
