@@ -111,8 +111,8 @@ public class RecipeController {
 		return ResponseEntity.ok(recipeService.getAllCategories());
 	}
 	
-	@GetMapping("/last")
-	public ResponseEntity<?> getLastRecipes() {
-		return ResponseEntity.ok(recipeService.getLastRecipes());
+	@GetMapping("/latest")
+	public ResponseEntity<?> getLatestRecipes() {
+		return ResponseEntity.ok(recipeService.getLatestRecipes());
 	}
 }

@@ -7,15 +7,15 @@ import RecipeService from '../services/recipe.service';
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
-  const [lastRecipes, setLastRecipes] = useState([]);
+  const [latestRecipes, setLatestRecipes] = useState([]);
 
   useEffect(() => {
     RecipeService.getCategories().then(res => {
       setCategories(res.data.values);
     }, error => console.log(error));
 
-    RecipeService.getLastRecipes().then(res => {
-      setLastRecipes(res.data);
+    RecipeService.getLatestRecipes().then(res => {
+      setLatestRecipes(res.data);
     }, error => console.log(error));
   }, []);
 
@@ -34,7 +34,7 @@ const Home = () => {
         }
       </div>
       {
-        lastRecipes.map((recipe, index) => {
+        latestRecipes.map((recipe, index) => {
           return (
             <>
               <hr className='featurette-divider' />

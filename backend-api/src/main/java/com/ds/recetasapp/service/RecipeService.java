@@ -11,7 +11,7 @@ public interface RecipeService {
 
 	List<Recipe> getAllRecipes();
 	
-	List<Recipe> getLastRecipes();
+	List<Recipe> getLatestRecipes();
 	
 	List<Recipe> getAllRecipesByCategory(String category);
 

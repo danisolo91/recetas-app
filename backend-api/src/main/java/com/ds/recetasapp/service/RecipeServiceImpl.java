@@ -68,7 +68,7 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-	public List<Recipe> getLastRecipes() {
+	public List<Recipe> getLatestRecipes() {
 		return recipeRepository.findFirst5ByOrderByCreatedAtDesc();
 	}
 	
