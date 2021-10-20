@@ -7,6 +7,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ds.recetasapp.domain.Category;
@@ -21,8 +23,9 @@ public class RecipeServiceImpl implements RecipeService {
 	private RecipeRepository recipeRepository;
 
 	@Override
-	public List<Recipe> getAllRecipes() {
-		return recipeRepository.findAllByOrderByCreatedAtDesc();
+	public Page<Recipe> getAllRecipes(Pageable pageable) {
+		//return recipeRepository.findAllByOrderByCreatedAtDesc();
+		return recipeRepository.findAll(pageable);
 	}
 
 	@Override
@@ -58,13 +61,13 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-	public List<Recipe> getByAuthorId(UUID authorId) {
-		return recipeRepository.findAllByAuthorIdOrderByCreatedAtAsc(authorId);
+	public Page<Recipe> getByAuthorId(UUID authorId, Pageable pageable) {
+		return recipeRepository.findByAuthor_id(authorId, pageable);
 	}
 
 	@Override
-	public List<Recipe> getAllRecipesByCategory(String category) {
-		return recipeRepository.findAllByCategory(category);
+	public Page<Recipe> getAllRecipesByCategory(String category,Pageable pageable) {
+		return recipeRepository.findAllByCategory(category, pageable);
 	}
 
 	@Override

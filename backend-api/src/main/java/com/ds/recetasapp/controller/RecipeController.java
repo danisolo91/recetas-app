@@ -7,6 +7,8 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,8 +37,8 @@ public class RecipeController {
 	private RecipeService recipeService;
 
 	@GetMapping
-	public ResponseEntity<?> getAllRecipes() {
-		return ResponseEntity.ok(recipeService.getAllRecipes());
+	public ResponseEntity<?> getAllRecipes(@PageableDefault(page = 0, size = 2) Pageable pageable) {
+		return ResponseEntity.ok(recipeService.getAllRecipes(pageable));
 	}
 
 	@GetMapping("/{id}")
@@ -51,8 +53,9 @@ public class RecipeController {
 	}
 	
 	@GetMapping("/categories/{category}")
-	public ResponseEntity<?> getRecipesByCategory(@PathVariable String category) {
-		return ResponseEntity.ok(recipeService.getAllRecipesByCategory(category));
+	public ResponseEntity<?> getRecipesByCategory(@PathVariable String category, 
+			@PageableDefault(page = 0, size = 10) Pageable pageable) {
+		return ResponseEntity.ok(recipeService.getAllRecipesByCategory(category, pageable));
 	}
 
 	@PostMapping

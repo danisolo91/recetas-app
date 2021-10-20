@@ -7,8 +7,9 @@ const getUser = (userId) => {
   return axios.get(API_URL + userId, { headers: authHeader() });
 };
 
-const getUserRecipes = (userId) => {
-  return axios.get(API_URL + userId + '/recipes', { headers: authHeader() });
+const getUserRecipes = (userId, page = 0, sort = 'createdAt,desc') => {
+  let path = userId + '/recipes?page=' + page + '&sort=' + sort;
+  return axios.get(API_URL + path, { headers: authHeader() });
 }
 
 const exportedObj = {

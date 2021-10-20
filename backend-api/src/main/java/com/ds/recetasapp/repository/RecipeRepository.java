@@ -3,6 +3,8 @@ package com.ds.recetasapp.repository;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -22,16 +24,14 @@ public interface RecipeRepository extends MongoRepository<Recipe, UUID>{
 			"{ $project: { _id: 0, values: '$_id' } }"
 	})
 	StringList findDistinctTags();
-		
-	@Aggregation(pipeline = {
+	
+	/*@Aggregation(pipeline = {
 			"{ $match: { 'author.id' : ?0 } }",
 			"{ $sort : { 'createdAt' : -1 } }"
-	})
-	List<Recipe> findAllByAuthorIdOrderByCreatedAtAsc(UUID authorId);	
+	})*/
+	Page<Recipe> findByAuthor_id(UUID id, Pageable pageable);	
 	
-	List<Recipe> findAllByOrderByCreatedAtDesc();
-	
-	List<Recipe> findAllByCategory(String category);
+	Page<Recipe> findAllByCategory(String category, Pageable pageable);
 	
 	List<Recipe> findFirst5ByOrderByCreatedAtDesc();
 	

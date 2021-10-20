@@ -3,8 +3,9 @@ import authHeader from "./auth-header";
 
 const API_URL = "http://localhost:8080/api/recipes/";
 
-const getAllRecipes = () => {
-  return axios.get(API_URL, { headers: authHeader() });
+const getAllRecipes = (page = 0, sort = 'createdAt,desc') => {
+  let path = '?page=' + page + '&sort=' + sort;
+  return axios.get(API_URL + path, { headers: authHeader() });
 }
 
 const getRecipeById = (recipeId) => {
@@ -27,8 +28,9 @@ const getCategories = () => {
   return axios.get(API_URL + 'categories', { headers: authHeader() });
 }
 
-const getRecipesByCategory= (category) => {
-  return axios.get(API_URL + 'categories/' + category, { headers: authHeader() });
+const getRecipesByCategory= (category, page = 0, sort = 'createdAt,desc') => {
+  let path = 'categories/' + category + '?page=' + page + '&sort=' + sort;
+  return axios.get(API_URL + path, { headers: authHeader() });
 }
 
 const getLatestRecipes = () => {

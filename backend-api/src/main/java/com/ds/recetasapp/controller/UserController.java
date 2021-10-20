@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,13 +47,14 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}/recipes")
-	public ResponseEntity<?> getUserRecipes(@PathVariable UUID id) {
+	public ResponseEntity<?> getUserRecipes(@PathVariable UUID id, 
+			@PageableDefault(page = 0, size = 2) Pageable pageable) {
 		Optional<User> user = userService.getUserById(id);
 
 		if (user.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok(recipeService.getByAuthorId(user.get().getId()));
+		return ResponseEntity.ok(recipeService.getByAuthorId(user.get().getId(), pageable));
 	}
 }

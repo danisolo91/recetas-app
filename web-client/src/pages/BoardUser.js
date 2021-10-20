@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
+import Pagination from '../components/Pagination';
 import RecipeCard from '../components/RecipeCard';
 
 import AuthService from '../services/auth.service';
@@ -9,8 +10,14 @@ const BoardUser = (props) => {
   const { userId } = useParams();
   const [loggedUser, setLoggedUser] = useState({});
   const [profileUser, setProfileUser] = useState({});
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState({ content: [] });
   const [loading, setLoading] = useState(true);
+
+  const changePage = (page) => {
+    UserService.getUserRecipes(userId, page).then(res => {
+      setRecipes(res.data);
+    });
+  }
 
   useEffect(() => {
     const authData = AuthService.getAuthData();
@@ -47,10 +54,19 @@ const BoardUser = (props) => {
               <p><button className="btn btn-secondary">Editar</button></p>}
           </div>
           <div className="col-md-9">
-            {recipes.length > 0 ?
-              recipes.map(recipe => {
-                return <RecipeCard recipe={recipe} />
-              }) :
+            {recipes.content.length > 0 ?
+              <>
+                {recipes.content.map(recipe => {
+                  return <RecipeCard recipe={recipe} />
+                })}
+                {recipes.totalPages > 1 &&
+                  <Pagination
+                    totalPages={recipes.totalPages}
+                    currentPage={recipes.number}
+                    changePage={changePage}
+                  />
+                }
+              </> :
               <p>No hay recetas</p>
             }
           </div>
