@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.ds.recetasapp.validator.ExistingAuthor;
 
 @Document(collection = "recipes")
 public class Recipe {
@@ -22,15 +25,20 @@ public class Recipe {
 	@Size(max = 45)
 	private String title;
 	private String image;
+	
+	@NotBlank
 	private String description;
-	private String category;
 	
 	@NotNull
+	private String category;
+	
+	@NotEmpty
 	private List<Ingredient> ingredients = new ArrayList<>();
 	private List<String> tags = new ArrayList<>();
 	private Date createdAt;
 	
 	@NotNull
+	@ExistingAuthor
 	private User author;
 
 	public Recipe() {

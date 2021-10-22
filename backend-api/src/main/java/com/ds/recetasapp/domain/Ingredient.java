@@ -1,13 +1,13 @@
 package com.ds.recetasapp.domain;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 public class Ingredient {
 
-	@NotNull
+	@NotBlank
 	private String food;
 	
-	@NotNull
+	@NotBlank
 	private String quantity;
 	
 	public Ingredient() {

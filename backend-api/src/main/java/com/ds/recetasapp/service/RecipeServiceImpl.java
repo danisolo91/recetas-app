@@ -24,7 +24,6 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public Page<Recipe> getAllRecipes(Pageable pageable) {
-		//return recipeRepository.findAllByOrderByCreatedAtDesc();
 		return recipeRepository.findAll(pageable);
 	}
 

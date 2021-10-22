@@ -26,12 +26,12 @@ public class User {
 	private String username;
 
 	@NotBlank
-	@Size(max = 120)
+	@Size(min = 4, max = 120)
 	@JsonIgnore
 	private String password;
 
 	@NotBlank
-	@Size(max = 45)
+	@Size(min = 3, max = 45)
 	private String fullname;
 	private Date createdAt;
 	private List<Role> roles = new ArrayList<>();
