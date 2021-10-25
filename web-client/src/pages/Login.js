@@ -58,7 +58,8 @@ const Login = (props) => {
                     placeholder="nombre@ejemplo.com"
                     name="username"
                     value={state.username}
-                    onChange={handleInput} />
+                    onChange={handleInput}
+                    required />
                   <label for="floatingEmail">Correo electrónico</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -69,7 +70,8 @@ const Login = (props) => {
                     placeholder="Contraseña"
                     name="password"
                     value={state.password}
-                    onChange={handleInput} />
+                    onChange={handleInput}
+                    required />
                   <label for="floatingPassword">Contraseña</label>
                 </div>
                 <button className="btn btn-primary">

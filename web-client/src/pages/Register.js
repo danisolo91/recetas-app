@@ -30,6 +30,12 @@ const Register = (props) => {
       AuthService.register(formState.fullname, formState.username, formState.password)
         .then(response => {
           setMessage(response.data.message);
+          setFormState({
+            fullname: '',
+            username: '',
+            password: '',
+            confirmPassword: ''
+          });
           setSuccessful(true);
         }, error => {
           const resMessage =
@@ -62,7 +68,8 @@ const Register = (props) => {
                     placeholder="Nombre completo"
                     name="fullname"
                     value={formState.fullname}
-                    onChange={handleInput} />
+                    onChange={handleInput}
+                    required />
                   <label for="floatingFullname">Nombre completo</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -73,7 +80,8 @@ const Register = (props) => {
                     placeholder="nombre@ejemplo.com"
                     name="username"
                     value={formState.username}
-                    onChange={handleInput} />
+                    onChange={handleInput} 
+                    required/>
                   <label for="floatingEmail">Correo electrónico</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -84,7 +92,8 @@ const Register = (props) => {
                     placeholder="Contraseña"
                     name="password"
                     value={formState.password}
-                    onChange={handleInput} />
+                    onChange={handleInput}
+                    required />
                   <label for="floatingPassword">Contraseña</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -95,7 +104,8 @@ const Register = (props) => {
                     placeholder="Confirmar contraseña"
                     name="confirmPassword"
                     value={formState.confirmPassword}
-                    onChange={handleInput} />
+                    onChange={handleInput}
+                    required />
                   <label for="floatingConfirmPassword">Confirmar contraseña</label>
                 </div>
                 <button className="btn btn-primary">Enviar</button>
