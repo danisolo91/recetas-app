@@ -31,12 +31,12 @@ const RecipeForm = (props) => {
     let descriptionError = '';
     let ingredientsError = '';
 
-    if (recipe.title.length < 1 || recipe.title.length > 45) {
+    if (recipe.title.trim().length === 0 || recipe.title.trim().length > 45) {
       titleError = 'Campo obligatorio. Máximo 45 carácteres.';
       isValid = false;
     }
 
-    if (recipe.description.length === 0) {
+    if (recipe.description.trim().length === 0) {
       descriptionError = 'Campo obligatorio.';
       isValid = false;
     }
