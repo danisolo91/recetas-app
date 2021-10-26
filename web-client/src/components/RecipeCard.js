@@ -13,8 +13,8 @@ const RecipeCard = ({ recipe }) => {
           <div className="col-md-8">
             <div className="card-body">
               <h5 className="card-title">{recipe.title}</h5>
-              <p className="card-text">{recipe.description}</p>
-              <p className="card-text text-secondary">{recipe.category}</p>
+              <p className="card-text">{recipe.description.substring(0, 150) + '...'}</p>
+              <p className="card-text text-secondary mb-1">{recipe.category}</p>
               <p className="card-text"><small className="text-secondary">{DateFormatter.defaultFormat(recipe.createdAt)}</small></p>
             </div>
           </div>

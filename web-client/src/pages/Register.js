@@ -1,18 +1,67 @@
 import React, { useState } from 'react';
 
 import AuthService from '../services/auth.service';
+import EmailValidator from '../utilities/email.util';
 
 const Register = (props) => {
   document.title = 'Crear cuenta';
-
-  const [formState, setFormState] = useState({
+  let initialState = {
     fullname: '',
     username: '',
     password: '',
-    confirmPassword: ''
-  });
+    confirmPassword: '',
+    fullnameError: '',
+    usernameError: '',
+    passwordError: '',
+    confirmPasswordError: ''
+  }
+
+  const [formState, setFormState] = useState(initialState);
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState('');
+
+  const validate = () => {
+    let isValid = true;
+    let fullnameError = '';
+    let usernameError = '';
+    let passwordError = '';
+    let confirmPasswordError = '';
+
+    if (formState.fullname.trim().length === 0 || formState.fullname.trim().length > 45) {
+      fullnameError = 'Campo obligatorio. Máximo 45 carácteres.';
+      isValid = false;
+    }
+
+    if (formState.username.trim().length === 0 || formState.username.trim().length > 50) {
+      usernameError = 'Campo obligatorio. Máximo 50 carácteres.';
+      isValid = false;
+    } else if (!EmailValidator.isValid(formState.username)) {
+      usernameError = 'Formato de email inválido.'
+      isValid = false;
+    }
+
+    if (formState.password.trim().length < 6 || formState.password.trim().length > 40) {
+      passwordError = 'La contraseña debe tener entre 6 y 40 carácteres.';
+      isValid = false;
+    }
+
+    if (formState.password !== formState.confirmPassword) {
+      confirmPasswordError = 'La contraseña no coincide.';
+      isValid = false;
+    }
+
+    setFormState(prevState => {
+      return {
+        ...prevState,
+        fullnameError: fullnameError,
+        usernameError: usernameError,
+        passwordError: passwordError,
+        confirmPasswordError: confirmPasswordError
+      }
+    });
+
+    return isValid;
+  }
 
   const handleInput = (e) => {
     setFormState(prevState => {
@@ -26,16 +75,11 @@ const Register = (props) => {
     setMessage('');
     setSuccessful(false);
 
-    if (true) {
+    if (validate()) {
       AuthService.register(formState.fullname, formState.username, formState.password)
         .then(response => {
           setMessage(response.data.message);
-          setFormState({
-            fullname: '',
-            username: '',
-            password: '',
-            confirmPassword: ''
-          });
+          setFormState(initialState);
           setSuccessful(true);
         }, error => {
           const resMessage =
@@ -47,66 +91,65 @@ const Register = (props) => {
 
           setMessage(resMessage);
           setSuccessful(false);
-        }
-        );
+        });
     }
   };
 
   return (
     <>
       <h1 className="text-center">Crear cuenta</h1>
-      <div class="row mt-4">
-        <div class="col-sm-12 col-md-6 mx-auto">
-          <div class="card">
-            <div class="card-body">
+      <div className="row mt-4">
+        <div className="col-sm-12 col-md-6 mx-auto">
+          <div className="card">
+            <div className="card-body">
               <form onSubmit={handleRegister}>
-                <div class="form-floating mb-3">
+                <div className="form-floating mb-3">
                   <input
                     type="text"
-                    class="form-control"
+                    className={formState.fullnameError ? 'form-control is-invalid' : 'form-control'}
                     id="floatingFullname"
                     placeholder="Nombre completo"
                     name="fullname"
                     value={formState.fullname}
-                    onChange={handleInput}
-                    required />
+                    onChange={handleInput} />
                   <label for="floatingFullname">Nombre completo</label>
+                  <div className="invalid-feedback">{formState.fullnameError}</div>
                 </div>
-                <div class="form-floating mb-3">
+                <div className="form-floating mb-3">
                   <input
-                    type="email"
-                    class="form-control"
+                    type="text"
+                    className={formState.usernameError ? 'form-control is-invalid' : 'form-control'}
                     id="floatingEmail"
                     placeholder="nombre@ejemplo.com"
                     name="username"
                     value={formState.username}
-                    onChange={handleInput} 
-                    required/>
+                    onChange={handleInput} />
                   <label for="floatingEmail">Correo electrónico</label>
+                  <div className="invalid-feedback">{formState.usernameError}</div>
                 </div>
-                <div class="form-floating mb-3">
+                <div className="form-floating mb-3">
                   <input
                     type="password"
-                    class="form-control"
+                    className={formState.passwordError ? 'form-control is-invalid' : 'form-control'}
                     id="floatingPassword"
                     placeholder="Contraseña"
                     name="password"
                     value={formState.password}
-                    onChange={handleInput}
-                    required />
+                    onChange={handleInput} />
                   <label for="floatingPassword">Contraseña</label>
+                  <div className="invalid-feedback">{formState.passwordError}</div>
                 </div>
-                <div class="form-floating mb-3">
+                <div className="form-floating mb-3">
                   <input
                     type="password"
-                    class="form-control"
+                    className={formState.confirmPasswordError ? 'form-control is-invalid' : 'form-control'}
                     id="floatingConfirmPassword"
                     placeholder="Confirmar contraseña"
                     name="confirmPassword"
                     value={formState.confirmPassword}
-                    onChange={handleInput}
-                    required />
+                    onChange={handleInput} />
                   <label for="floatingConfirmPassword">Confirmar contraseña</label>
+                  <div className="invalid-feedback">{formState.confirmPasswordError}</div>
                 </div>
                 <button className="btn btn-primary">Enviar</button>
 

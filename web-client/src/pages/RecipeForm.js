@@ -8,17 +8,55 @@ import AuthService from '../services/auth.service';
 import RecipeService from '../services/recipe.service';
 
 const RecipeForm = (props) => {
-  const { recipeId } = useParams();
-  const [recipe, setRecipe] = useState({
+  let initialState = {
     author: { id: '' },
     title: '',
     description: '',
     category: '',
     image: '',
     ingredients: [],
-    tags: []
-  });
+    tags: [],
+    titleError: '',
+    descriptionError: '',
+    ingredientsError: ''
+  };
+
+  const { recipeId } = useParams();
+  const [recipe, setRecipe] = useState(initialState);
   const [loading, setLoading] = useState(true);
+
+  const validate = () => {
+    let isValid = true;
+    let titleError = '';
+    let descriptionError = '';
+    let ingredientsError = '';
+
+    if (recipe.title.length < 1 || recipe.title.length > 45) {
+      titleError = 'Campo obligatorio. Máximo 45 carácteres.';
+      isValid = false;
+    }
+
+    if (recipe.description.length === 0) {
+      descriptionError = 'Campo obligatorio.';
+      isValid = false;
+    }
+
+    if (recipe.ingredients.length === 0) {
+      ingredientsError = 'Es obligatorio añadir ingredientes.';
+      isValid = false;
+    }
+
+    setRecipe(prevState => {
+      return {
+        ...prevState,
+        titleError: titleError,
+        descriptionError: descriptionError,
+        ingredientsError: ingredientsError
+      }
+    });
+
+    return isValid;
+  }
 
   const handleInput = (e) => {
     setRecipe(prevState => {
@@ -30,7 +68,7 @@ const RecipeForm = (props) => {
   }
 
   const handleSubmit = () => {
-    if (recipe.title && recipe.ingredients.length > 0) {
+    if (validate()) {
       if (recipeId) { // update
         RecipeService.editRecipe(recipe).then(res => {
           props.history.push('/profiles/' + recipe.author.id);
@@ -44,8 +82,6 @@ const RecipeForm = (props) => {
           console.log(error);
         });
       }
-    } else {
-      console.log('form validation error...');
     }
   }
 
@@ -110,7 +146,12 @@ const RecipeForm = (props) => {
 
           // Check if the logged user is the author
           if (res.data.author.id === authData.user.id) {
-            setRecipe(res.data);
+            setRecipe(prevState => {
+              return {
+                ...prevState,
+                ...res.data
+              }
+            });
           } else {
             console.log('forbidden');
             props.history.push('/'); // show 403 forbidden page...
@@ -136,27 +177,28 @@ const RecipeForm = (props) => {
         <>
           <h1 className="mb-3">{recipeId ? 'Editar receta' : 'Crear nueva receta'}</h1>
 
-          <CategoryFormSelect 
-              selectedCategory={recipe.category}
-              selectCategory={selectCategory}
-            />
+          <CategoryFormSelect
+            selectedCategory={recipe.category}
+            selectCategory={selectCategory}
+          />
 
           <div>
             <div className="form-floating mb-3">
               <input
                 type="text"
-                className="form-control"
+                className={recipe.titleError ? 'form-control is-invalid' : 'form-control'}
                 id="floatingTitle"
                 placeholder="Titulo"
                 name="title"
                 value={recipe?.title}
                 onChange={handleInput} />
               <label for="floatingTitle">Titulo</label>
+              <div className="invalid-feedback">{recipe.titleError}</div>
             </div>
 
             <div className="form-floating">
               <textarea
-                className="form-control"
+                className={recipe.descriptionError ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Descripción"
                 id="floatingTextarea2"
                 style={{ height: '150px' }}
@@ -164,12 +206,17 @@ const RecipeForm = (props) => {
                 value={recipe?.description}
                 onChange={handleInput} ></textarea>
               <label for="floatingTextarea2">Descripción</label>
+              <div className="invalid-feedback">{recipe.descriptionError}</div>
             </div>
 
             <IngredientsForm
               addIngredient={addIngredient}
               removeIngredient={removeIngredient}
               ingredients={recipe.ingredients} />
+
+            {recipe.ingredientsError &&
+              <p style={{ color: '#dc3545', fontSize: '0.875em' }}>{recipe.ingredientsError}</p>
+            }
 
             <TagForm
               addTag={addTag}

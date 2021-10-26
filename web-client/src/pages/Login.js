@@ -35,8 +35,7 @@ const Login = (props) => {
 
         setLoading(false);
         setMessage(resMessage);
-      }
-      );
+      });
     } else {
       setLoading(false);
     }
