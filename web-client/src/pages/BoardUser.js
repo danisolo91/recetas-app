@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
+
 import Pagination from '../components/Pagination';
 import RecipeCard from '../components/RecipeCard';
-
 import AuthService from '../services/auth.service';
 import UserService from '../services/user.service';
+import DefaultProfileImage from '../images/profile.png';
 
 const BoardUser = (props) => {
   const { userId } = useParams();
@@ -47,7 +48,7 @@ const BoardUser = (props) => {
       {!loading &&
         <div className="row">
           <div className="col-md-3 pe-3 text-center">
-            <img src="https://github.com/mdo.png" alt="mdo" width="140" height="140" className="bd-placeholder-img rounded-circle mb-3" />
+            <img src={profileUser.profileImage ? profileUser.profileImage : DefaultProfileImage} alt="mdo" width="140" height="140" className="bd-placeholder-img rounded-circle mb-3" />
             <h2>{profileUser.fullname}</h2>
             <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
             {loggedUser.id === profileUser.id &&

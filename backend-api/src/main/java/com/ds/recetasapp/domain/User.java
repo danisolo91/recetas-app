@@ -33,6 +33,7 @@ public class User {
 	@NotBlank
 	@Size(min = 3, max = 45)
 	private String fullname;
+	private String profileImage;
 	private Date createdAt;
 	private List<Role> roles = new ArrayList<>();
 
@@ -78,6 +79,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}	
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 
 	public Date getCreatedAt() {

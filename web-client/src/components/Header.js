@@ -3,6 +3,7 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 
 import AuthService from '../services/auth.service';
+import DefaultProfileImage from '../images/profile.png';
 
 const Header = (props) => {
   const [loggedUser, setLoggedUser] = useState(undefined);
@@ -26,6 +27,7 @@ const Header = (props) => {
   useEffect(() => {
     const authData = AuthService.getAuthData();
     if (authData) {
+      console.log(authData)
       setLoggedUser(authData.user);
     }
   }, []);
@@ -53,7 +55,7 @@ const Header = (props) => {
             {loggedUser ?
               <div className="dropdown text-end">
                 <div className="d-block link-light text-decoration-none dropdown-toggle cursor-pointer" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
+                  <img src={loggedUser.profileImage ? loggedUser.profileImage : DefaultProfileImage} alt="mdo" width="32" height="32" className="rounded-circle" />
                 </div>
                 <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                   <li onClick={goToUserProfile} className="dropdown-item cursor-pointer">Mi perfil</li>
