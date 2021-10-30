@@ -12,9 +12,15 @@ const getUserRecipes = (userId, page = 0, sort = 'createdAt,desc') => {
   return axios.get(API_URL + path, { headers: authHeader() });
 }
 
+const updateProfileImage = (userId, profileImageFD) => {
+  let path = userId + '/profile-image';
+  return axios.put(API_URL + path, profileImageFD, { headers: authHeader() });
+}
+
 const exportedObj = {
   getUser,
-  getUserRecipes
+  getUserRecipes,
+  updateProfileImage
 };
 
 export default exportedObj;
