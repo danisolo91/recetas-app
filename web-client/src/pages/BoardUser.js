@@ -7,6 +7,7 @@ import ProfileImageModal from '../components/ProfileImageModal';
 import AuthService from '../services/auth.service';
 import UserService from '../services/user.service';
 import DefaultProfileImage from '../images/profile.png';
+import ProfileModal from '../components/ProfileModal';
 
 const BoardUser = (props) => {
   const { userId } = useParams();
@@ -15,6 +16,7 @@ const BoardUser = (props) => {
   const [recipes, setRecipes] = useState({ content: [] });
   const [loading, setLoading] = useState(true);
   const [showProfileImageModal, setShowProfileImageModal] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
   const changePage = (page) => {
     UserService.getUserRecipes(userId, page).then(res => {
@@ -58,9 +60,14 @@ const BoardUser = (props) => {
                 <img src={profileUser.profileImage ? process.env.REACT_APP_API_STORAGE + profileUser.profileImage : DefaultProfileImage} alt="mdo" width="140" height="140" className="bd-placeholder-img rounded-circle mb-3" />
               </div>
               <h2>{profileUser.fullname}</h2>
-              <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
+              <p className="fw-lighter">
+                {profileUser.description ?
+                  profileUser.description :
+                  'Amante de la cocina'
+                }
+              </p>
               {loggedUser.id === profileUser.id &&
-                <p><button className="btn btn-dark">Editar</button></p>}
+                <p><button className="btn btn-sm btn-dark" onClick={() => setShowProfileModal(true)}>Editar</button></p>}
             </div>
             <div className="col-md-9">
               {recipes.content.length > 0 ?
@@ -81,6 +88,7 @@ const BoardUser = (props) => {
             </div>
           </div>
           {showProfileImageModal && <ProfileImageModal show={showProfileImageModal} hide={() => setShowProfileImageModal(false)} />}
+          {showProfileModal && <ProfileModal show={showProfileModal} hide={() => setShowProfileModal(false)} userId={userId} profile={profileUser} />}
         </>
       }
     </>

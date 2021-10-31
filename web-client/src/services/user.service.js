@@ -17,10 +17,15 @@ const updateProfileImage = (userId, profileImageFD) => {
   return axios.put(API_URL + path, profileImageFD, { headers: authHeader() });
 }
 
+const updateProfile = (userId, profile) => {
+  return axios.put(API_URL + userId, profile, { headers: authHeader() });
+}
+
 const exportedObj = {
   getUser,
   getUserRecipes,
-  updateProfileImage
+  updateProfileImage,
+  updateProfile
 };
 
 export default exportedObj;

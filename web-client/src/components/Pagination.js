@@ -2,7 +2,7 @@
 const Pagination = (props) => {
   return (
     <nav aria-label="Page navigation example">
-      <ul className="pagination justify-content-center">
+      <ul className="pagination pagination-sm justify-content-center">
         {
           [...Array(props.totalPages)].map((page, i) => {
             return (

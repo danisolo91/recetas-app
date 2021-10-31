@@ -33,6 +33,9 @@ public class User {
 	@NotBlank
 	@Size(min = 3, max = 45)
 	private String fullname;
+	
+	@Size(min = 1, max = 140)
+	private String description;
 	private String profileImage;
 	private Date createdAt;
 	private List<Role> roles = new ArrayList<>();
@@ -71,6 +74,14 @@ public class User {
 
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getPassword() {

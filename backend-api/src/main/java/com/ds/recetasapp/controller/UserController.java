@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -14,12 +16,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ds.recetasapp.domain.User;
+import com.ds.recetasapp.payload.request.ProfileRequest;
 import com.ds.recetasapp.payload.response.MessageResponse;
 import com.ds.recetasapp.service.FileStorageService;
 import com.ds.recetasapp.service.RecipeService;
@@ -99,5 +103,27 @@ public class UserController {
 		userService.save(user.get());
 		
 		return ResponseEntity.ok(user.get());
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateProfile(@PathVariable UUID id, @Valid @RequestBody ProfileRequest profile, Principal principal) {
+		Optional<User> user = userService.getUserById(id);
+
+		// Check if user exists
+		if (user.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		// Check if profile belongs to the authenticated user
+		if(!user.get().getUsername().equals(principal.getName())) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		
+		// Update user's profile
+		user.get().setFullname(profile.getFullname());
+		user.get().setDescription(profile.getDescription());
+		User updatedUser = userService.save(user.get());
+		
+		return ResponseEntity.ok(updatedUser);
 	}
 }

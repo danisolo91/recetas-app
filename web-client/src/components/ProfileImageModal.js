@@ -9,12 +9,14 @@ const ProfileImageModal = (props) => {
   const modalRef = useRef();
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleSelectedImage = (e) => {
     setImage(e.target.files[0]);
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setLoading(true);
 
     const profileImageFD = new FormData();
@@ -43,12 +45,13 @@ const ProfileImageModal = (props) => {
   }
 
   useEffect(() => {
-    if (props.show === true) {
+    if (props.show === true && isVisible === false) {
       showModal();
+      setIsVisible(true);
     } else {
       hideModal();
     }
-  });
+  }, [props.show, isVisible, setIsVisible]);
 
   return (
     <div className="modal fade" ref={modalRef} id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
